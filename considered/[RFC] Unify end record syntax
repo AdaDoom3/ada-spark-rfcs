@@ -10,11 +10,14 @@ Originally submitted under AI12-0213, I proposed a "unification" of the end
 record syntax to more closely fit other constructs in the language like
 packages, blocks, and subprograms instead of logical constructs like loops.
 
+Also, I propose not implementing the approved syntax of "end record identifer"
+as it creates too many syntactic alternatives.
+
 Motivation
 ==========
 
-I am submitting a change to the approved AI12-0213 with the addition of my
-original unaltered proposal which was easy to implement while adding support
+I am submitting an alternative to the approved AI12-0213 with the addition of my
+original proposal which was easy to implement while adding support
 for the approved version. Additionally, I saw support for this by others
 outside of the ARG within AdaCore. I anticipate this change to not be
 instituted without significant support from non-members as the ARG was
@@ -44,7 +47,8 @@ Taken from original AI proposal:
 I propose introducing an "end identifier" and "end" syntax for record
 definitions and representation clauses so that their syntax more
 closely matches program units such as subprogram_declarations and
-package_declarations. See the code fragments below for an overview of the
+package_declarations and killing the current proposal as-is for
+"end record identifier" See the code fragments below for an overview of the
 proposed change:
 
    type Rec_B is record
@@ -81,7 +85,7 @@ As alternatives to:
       B at 0 range 1 .. 1;
    end record;
 
- and
+ and instead of:
 
    type Rec_B is record
       A : Boolean;
@@ -100,7 +104,7 @@ Replace 3.8(3) with:
 record_definition ::=
    record
       component_list
-   end [record] [/record_/identifier]
+   end [record | /identifier]
    | null record
 
 Add after 3.8(6/3):
@@ -114,7 +118,7 @@ record_representation_clause ::=
    for /first_subtype_/local_name use
       record [mod_clause]
          {component_clause}
-      end [record] [local_name];
+      end [record | local_name];
 
 Add after 13.5.1(6):
 
@@ -129,8 +133,6 @@ Rationale and alternatives
     - type ID is record ... end ID;
   The approved AI consisted of the following syntax:
     - type ID is record ... end record ID;
-  An alternative proposal would be to approve only one of two non-approved
-  varients.
 
 Drawbacks
 =========
